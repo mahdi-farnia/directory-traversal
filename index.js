@@ -13,22 +13,29 @@ const tty = createInterface(process.stdin, process.stdout);
 // Traverse and search for directories including sharepoint term
 //
 const root = await getPath('? Enter root directory to search: ');
+const dest = await getPath('? Enter destination of .dll files: ');
+
+console.log('- Searching, This might take a couple of minutes...');
+
 const sharePointTraversal = new TermTraversal(/sharepoint/i, [root]);
 const sharepointTargets = await sharePointTraversal.getResult();
+
+console.log(`- Found ${sharepointTargets.length} search result`);
 
 //
 // Step 2
 // Partially extract DLLs from results
 //
+console.log('- Searching for .dll files');
+
 const dllTraversal = new TermTraversal(/\.dll$/i, sharepointTargets);
 const dlls = await dllTraversal.getResult();
 
+console.log(`- Copying ${dlls.length} items`);
 //
 // Step 3
 // Copy DLLs to destination path
 //
-const dest = await getPath('? Enter destination of .dll files: ');
-
 const duplicates = new Set();
 for (const itemPath of dlls) {
   const itemStat = await stat(itemPath);
@@ -44,6 +51,8 @@ for (const itemPath of dlls) {
 
   await copyFile(itemPath, joinPath(dest, itemName), constants.COPYFILE_FICLONE);
 }
+
+console.log('- Done!');
 
 tty.close();
 
