@@ -11,8 +11,8 @@ const isTesting = !isMainThread;
 // Preparing
 // Checking environment requirements
 //
-assert(isTesting && workerData.root, 'root path should be supplied in testing');
-assert(isTesting && workerData.dest, 'test path should be supplied in testing');
+assertTestData('root', 'root path should be supplied in testing');
+assertTestData('dest', 'dest path should be supplied in testing');
 
 console.log('This program should run as root/administrator');
 console.log('Press ^C to exit program at any time\n');
@@ -32,18 +32,14 @@ console.log('- Searching, This might take a couple of minutes...');
 const sharePointTraversal = new TermTraversal(/sharepoint/i, [root]);
 const sharepointTargets = await sharePointTraversal.getResult();
 
-console.log(`- Found ${sharepointTargets.length} search result`);
-
 //
 // Step 2
 // Partially extract DLLs from results
 //
-console.log('- Searching for .dll files');
+console.log('- Searching for .dll files\n');
 
 const dllTraversal = new TermTraversal(/\.dll$/i, sharepointTargets);
 const dlls = await dllTraversal.getResult();
-
-console.log(`- Copying ${dlls.length} items`);
 
 //
 // Step 3
@@ -81,4 +77,12 @@ async function getPath(prompt) {
       console.error('! error: path is not accessible');
     }
   }
+}
+
+/** check availability of required data for testing provided by test suit */
+function assertTestData(prop, msg) {
+  assert(
+    isMainThread ^ (workerData != null && typeof workerData === 'object' && prop in workerData),
+    msg
+  );
 }

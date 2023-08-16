@@ -37,7 +37,7 @@ describe('Main app', () => {
       workerData: { root, dest },
       stdin: false,
       stdout: false,
-      stderr: true
+      stderr: false
     });
 
     await new Promise((resolve, reject) => {
