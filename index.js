@@ -71,7 +71,7 @@ async function getPath(prompt) {
     dest = await tty.question(prompt);
 
     try {
-      access(dest, constants.F_OK);
+      await access(dest, constants.F_OK);
       return dest;
     } catch (e) {
       console.error('! error: path is not accessible');
