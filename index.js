@@ -38,7 +38,7 @@ const sharepointTargets = await sharePointTraversal.getResult();
 //
 console.log('- Searching for .dll files\n');
 
-const dllTraversal = new TermTraversal(/\.dll$/i, sharepointTargets);
+const dllTraversal = new TermTraversal(/\.dll/i, sharepointTargets);
 const dlls = await dllTraversal.getResult();
 
 //
