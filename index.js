@@ -2,7 +2,7 @@ import { join as joinPath, basename } from 'node:path';
 import TermTraversal from './lib/TermTraversal.js';
 import { createInterface } from 'node:readline/promises';
 import assert from 'node:assert';
-import { copyFile, stat, constants, access } from 'node:fs/promises';
+import { copyFile, constants, access, lstat } from 'node:fs/promises';
 import { isMainThread, workerData } from 'node:worker_threads';
 
 const isTesting = !isMainThread;
@@ -47,9 +47,9 @@ const dlls = await dllTraversal.getResult();
 //
 const duplicates = new Set();
 for (const itemPath of dlls) {
-  const itemStat = await stat(itemPath);
+  const itemStat = await lstat(itemPath);
 
-  if (!itemStat.isFile()) continue;
+  if (!itemStat.isFile() || itemStat.isSymbolicLink()) continue;
 
   let itemName = basename(itemPath);
   while (duplicates.has(itemName)) {

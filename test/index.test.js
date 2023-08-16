@@ -17,7 +17,9 @@ describe('Main app', () => {
     'file3-duplicate.dll',
     'sharepoint.sample.dll',
     'sharepoint.team.dll',
-    'file2.dll'
+    'file2.dll',
+    'file2.dll.lnk',
+    'sharepoint.sample.dll.lnk'
   ].sort();
 
   before(async () => {

@@ -32,7 +32,8 @@ describe('Traverse directories by term in calling thread', () => {
     'test/root/sharepoint.sample.dll',
     'test/root/sharepoint',
     'test/root/microsoft.sharepoint.folder',
-    'test/root/another.microsoft/sharepoint.again'
+    'test/root/another.microsoft/sharepoint.again',
+    'test/root/another.microsoft/sharepoint.sample.dll.lnk'
   ]
     .map(path.normalize)
     .sort();
