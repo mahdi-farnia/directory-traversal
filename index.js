@@ -49,7 +49,7 @@ const duplicates = new Set();
 for (const itemPath of dlls) {
   const itemStat = await lstat(itemPath);
 
-  if (!itemStat.isFile() || itemStat.isSymbolicLink()) continue;
+  if (!itemStat.isFile()) continue;
 
   let itemName = basename(itemPath);
   while (duplicates.has(itemName)) {
